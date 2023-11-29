@@ -1,10 +1,12 @@
 const express = require('express')
+const colors = require('colors')
 const dotenv = require('dotenv').config()
 const port = process.env.PORT || 5000
 const app = express()
+const connectDB = require('./config/db')
 const { errorHandler } = require('./middleware/errorMiddleware')
 
-
+connectDB()
 /*En el archivo server no es correcto tener las rutas. Para ello tendremos nuestra carpeta de rutas
 app.get('/api/tareas', (req, res)=>{
     res.status(200).json({message:'Obtener algo'})
