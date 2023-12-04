@@ -1,15 +1,15 @@
 const express = require('express')
 const router = express.Router()
-const {getTareas, setTareas, updateTareas, deleteTareas} = require('../controllers/tareasController')
+const {registrarUser, loginUser, misDatos} = require('../controllers/usersController')
 
 
-router.route('/').get(getTareas).post(setTareas)
-//router.get('/', getTareas)    
-//router.post('/', setTareas)
-
-router.put('/:id', updateTareas)
+router.post('/', registrarUser)
+router.post('/login', loginUser)
+router.get('/data', misDatos)
+/* 
+router.put('/:id', modificarTareas)
 router.delete('/:id', deleteTareas)
-
+ */
 
 module.exports = router
 
