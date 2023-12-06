@@ -46,12 +46,38 @@ const  registrarUser = asyncHandler( async (req, res) => {
 })
 
 const  loginUser = asyncHandler( async (req, res) => {
-    res.status(200).json({message: 'Usuario logueado'})
+    //Desestructurar el body
+    const {email, password} = req.body
+
+    //Verificamos que exista el usuario
+    const user = await User.findOne({email})
+
+    //Verificamos al usuario y a la cotraseña y se genera el token 
+    if(user && (await bcrypt.compare(password, user.password))){
+        res.status(200).json({
+            _id: user.id, //user.id devuelve un string y user._id devuelve un objeto lo cual resulta inútil si se requiere comparar una cadena, por ejemplo
+            name: user.name,
+            email: user.email,
+            token: generarToken(user.id)
+         })
+    }else{
+        res.status(400)
+        throw new Error('Credenciales incorrectas')
+    }
+
+   
 })
 
 const  misDatos = asyncHandler( async (req, res) => {
-    res.status(200).json({message: 'Datos del usuario'})
+    res.status(200).json(req.user)
 })
+
+//Función apra generar un JWT
+const generarToken = (id) =>{
+    return jwt.sign({id }, process.env.JWT_SECRET, {
+        expiresIn:'30d'
+    }) 
+} 
 
 module.exports ={
     registrarUser,  
