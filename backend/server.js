@@ -18,7 +18,7 @@ app.get('/api/tareas', (req, res)=>{
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
 
-app.use('/api/tareas', require('./routes/tareasRoutes'))
+app.use('/api/tareas', require('./routes/taresRoutes'))
 app.use('/api/users', require('./routes/usersRoutes'))
 app.use(errorHandler)
 
